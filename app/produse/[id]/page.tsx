@@ -2,6 +2,7 @@ import { getProduct } from "@/lib/products";
 import { notFound } from "next/navigation";
 import Gallery from "./Gallery";
 import Link from "next/link";
+import AddToCart from "./AddToCart";
 
 function formatPrice(bani: number) {
   return (bani / 100).toLocaleString("ro-RO", {
@@ -40,6 +41,14 @@ export default async function ProductPage({
           <p className={`mt-2 text-sm ${p.stock > 0 ? "text-green-600" : "text-red-500"}`}>
             {p.stock > 0 ? "În stoc" : "Stoc epuizat"}
           </p>
+          <AddToCart
+            id={p.id}
+            name={p.name}
+            brand={p.brand}
+            price={p.price}
+            image={p.images && p.images.length > 0 ? p.images[0] : ""}
+            inStock={p.stock > 0}
+          />
 
           {p.description && <p className="mt-6 text-gray-600">{p.description}</p>}
 
