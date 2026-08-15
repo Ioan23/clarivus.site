@@ -1,9 +1,7 @@
-"use client";
-
+﻿"use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getProducts, type Product } from "@/lib/products";
-import { db } from "@/lib/firebase";
 
 function formatPrice(bani: number) {
   return (bani / 100).toLocaleString("ro-RO", {
@@ -16,30 +14,19 @@ function formatPrice(bani: number) {
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [debug, setDebug] = useState("verific...");
 
   useEffect(() => {
-    const project = db.app.options.projectId ?? "LIPSA";
     getProducts()
-      .then((items) => {
-        setProducts(items);
-        setDebug(`project=${project} · produse=${items.length} · eroare=nu`);
-      })
-      .catch((e: any) => {
-        setDebug(`project=${project} · EROARE=${e?.code || e?.message || e}`);
-      })
+      .then((items) => setProducts(items))
       .finally(() => setLoading(false));
   }, []);
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-10">
       <h1 className="mb-1 text-3xl font-semibold">Ochelari și rame</h1>
-      <p className="mb-2 text-gray-500">
+      <p className="mb-8 text-gray-500">
         {loading ? "Se încarcă..." : `${products.length} produse disponibile`}
       </p>
-      {/* DEBUG temporar — îl scoatem după ce reparăm */}
-      <p className="mb-8 rounded bg-yellow-100 p-2 text-xs text-gray-700">{debug}</p>
-
       <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
         {products.map((p) => (
           <Link key={p.id} href={`/produse/${p.id}`}>
@@ -68,4 +55,4 @@ export default function ProductsPage() {
       </div>
     </main>
   );
-} 
+}
