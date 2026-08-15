@@ -1,0 +1,5 @@
+env:
+  - variable: RESEND_API_KEY
+    secret: RESEND_API_KEY
+  - variable: ORDER_NOTIFICATION_EMAIL
+    value: popescuioan1994@gmail.com
