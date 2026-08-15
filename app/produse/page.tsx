@@ -1,4 +1,5 @@
 import { getProducts } from "@/lib/products";
+export const dynamic = "force-dynamic";
 import Link from "next/link";   
 
 function formatPrice(bani: number) {
