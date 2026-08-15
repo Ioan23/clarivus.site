@@ -1,5 +1,42 @@
 env:
   - variable: RESEND_API_KEY
     secret: RESEND_API_KEY
+
   - variable: ORDER_NOTIFICATION_EMAIL
     value: popescuioan1994@gmail.com
+
+  - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+    value: "AIzaSyADT37teEFyupzz3JobPHVsdYwbuF0nNro"
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    value: "clarivus-bd287.firebaseapp.com"
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    value: "clarivus-bd287"
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    value: "clarivus-bd287.firebasestorage.app"
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    value: "981734621667"
+    availability:
+      - BUILD
+      - RUNTIME
+
+  - variable: NEXT_PUBLIC_FIREBASE_APP_ID
+    value: "1:981734621667:web:d0f74a2cf62c5ac5eb20d6"
+    availability:
+      - BUILD
+      - RUNTIME
