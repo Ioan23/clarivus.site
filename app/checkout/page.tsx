@@ -44,6 +44,16 @@ export default function CheckoutPage() {
     setSubmitting(true);
     try {
       const orderId = await createOrder(form, items, total);
+      // trimite notificarea pe email (nu blochează comanda dacă eșuează)
+      try {
+        await fetch("/api/notify-order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ orderId, customer: form, items, total }),
+        });
+      } catch (notifyError) {
+        console.error("Notificarea pe email nu a putut fi trimisă:", notifyError);
+      }
       clear();
       router.push(`/comanda-plasata?id=${orderId}`);
     } catch (e) {
