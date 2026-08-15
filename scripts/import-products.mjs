@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+﻿import { readFileSync } from "node:fs";
 import { parse } from "csv-parse/sync";
 import { initializeApp, cert } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
@@ -27,8 +27,19 @@ function slugify(s) {
     .replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
-let count = 0;
+let created = 0;
+let updated = 0;
+let skipped = 0;
+
 for (const row of rows) {
+  const sku = (row.sku || "").trim();
+
+  if (!sku) {
+    console.log(`⚠ Rând fără SKU (${row.name || "necunoscut"}) — sar peste`);
+    skipped++;
+    continue;
+  }
+
   const type = row.type;
   const doc = {
     slug: slugify(`${row.name}-${row.color || ""}`),
@@ -41,8 +52,7 @@ for (const row of rows) {
     currency: "RON",
     vatCategory: type === "sunglasses" ? "sunglasses" : "frame",
     stock: parseInt(row.stock || "0", 10),
-    sku: row.sku || "",
-    images: [],
+    sku,
     attributes: {
       color: row.color || "",
       material: row.material || "",
@@ -53,11 +63,22 @@ for (const row of rows) {
     },
     description: row.description || "",
     active: true,
-    createdAt: new Date(),
   };
-  await db.collection("products").add(doc);
-  count++;
-  console.log(`✓ ${row.name}`);
+
+  const snap = await db.collection("products").where("sku", "==", sku).get();
+
+  if (snap.empty) {
+    doc.images = [];
+    doc.createdAt = new Date();
+    await db.collection("products").add(doc);
+    created++;
+    console.log(`✓ CREAT: ${row.name} (SKU ${sku})`);
+  } else {
+    await snap.docs[0].ref.update(doc);
+    updated++;
+    console.log(`↻ ACTUALIZAT: ${row.name} (SKU ${sku})`);
+  }
 }
-console.log(`\nGata: ${count} produse importate.`);
-process.exit(0);    
+
+console.log(`\nGata: ${created} create, ${updated} actualizate, ${skipped} sărite.`);
+process.exit(0);
