@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import { useCart } from "@/lib/cart";
 
@@ -21,7 +20,7 @@ export default function CartPage() {
         <p className="mt-3 text-gray-500">Nu ai adăugat încă niciun produs.</p>
         <Link
           href="/produse"
-          className="mt-8 inline-block rounded-full bg-black px-8 py-3 text-sm font-medium text-white transition hover:bg-gray-800"
+          className="mt-8 inline-block rounded-full bg-[#c6a253] px-8 py-3 text-sm font-medium text-[#0a1728] transition hover:opacity-90"
         >
           Vezi produsele
         </Link>
@@ -35,10 +34,7 @@ export default function CartPage() {
 
       <div className="space-y-4">
         {items.map((item) => (
-          <div
-            key={item.id}
-            className="flex items-center gap-4 rounded-xl border p-4"
-          >
+          <div key={item.id} className="flex items-center gap-4 rounded-xl border p-4">
             <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-gray-100">
               {item.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -87,16 +83,17 @@ export default function CartPage() {
       </div>
 
       <div className="mt-8 flex flex-col items-end gap-4 border-t pt-6">
-        <p className="text-lg">
-          Total: <span className="text-2xl font-bold">{formatPrice(total)}</span>
-        </p>
+        <div className="flex w-full max-w-xs items-center justify-between text-lg">
+          <span className="text-gray-600">Total</span>
+          <span className="font-bold">{formatPrice(total)}</span>
+        </div>
         <Link
           href="/checkout"
-          className="rounded-full bg-black px-10 py-4 text-sm font-medium text-white transition hover:bg-gray-800"
+          className="inline-block rounded-full bg-[#c6a253] px-8 py-3 text-sm font-medium text-[#0a1728] transition hover:opacity-90"
         >
           Finalizează comanda
         </Link>
       </div>
     </main>
   );
-}
+} 

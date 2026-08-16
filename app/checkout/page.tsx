@@ -44,7 +44,6 @@ export default function CheckoutPage() {
     setSubmitting(true);
     try {
       const orderId = await createOrder(form, items, total);
-      // trimite notificarea pe email (nu blochează comanda dacă eșuează)
       try {
         await fetch("/api/notify-order", {
           method: "POST",
@@ -69,7 +68,7 @@ export default function CheckoutPage() {
         <h1 className="text-2xl font-semibold">Coșul tău este gol</h1>
         <Link
           href="/produse"
-          className="mt-8 inline-block rounded-full bg-black px-8 py-3 text-sm font-medium text-white transition hover:bg-gray-800"
+          className="mt-8 inline-block rounded-full bg-[#c6a253] px-8 py-3 text-sm font-medium text-[#0a1728] transition hover:opacity-90"
         >
           Vezi produsele
         </Link>
@@ -129,7 +128,7 @@ export default function CheckoutPage() {
             <button
               onClick={handleSubmit}
               disabled={submitting}
-              className="mt-6 w-full rounded-full bg-black px-8 py-4 text-sm font-medium text-white transition hover:bg-gray-800 disabled:opacity-50"
+              className="mt-6 w-full rounded-full bg-[#c6a253] px-8 py-4 text-sm font-medium text-[#0a1728] transition hover:opacity-90 disabled:opacity-50"
             >
               {submitting ? "Se plasează..." : "Plasează comanda"}
             </button>

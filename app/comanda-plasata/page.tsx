@@ -29,7 +29,7 @@ function Confirmare() {
 
       <Link
         href="/produse"
-        className="mt-10 inline-block rounded-full bg-black px-8 py-3 text-sm font-medium text-white transition hover:bg-gray-800"
+        className="mt-10 inline-block rounded-full bg-[#c6a253] px-8 py-3 text-sm font-medium text-[#0a1728] transition hover:opacity-90"
       >
         Continuă cumpărăturile
       </Link>
