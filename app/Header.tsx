@@ -25,6 +25,9 @@ export default function Header() {
           <Link href="/produse" className="text-gray-300 transition hover:text-[#c6a253]">
             Produse
           </Link>
+          <Link href="/servicii" className="text-gray-300 transition hover:text-[#c6a253]">
+  Servicii
+</Link>
           <Link href="/cos" className="relative text-gray-300 transition hover:text-[#c6a253]">
             Coș
             {count > 0 && (
