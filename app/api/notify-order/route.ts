@@ -33,17 +33,6 @@ export async function POST(request: Request) {
     const lei = (bani: number) => (bani / 100).toFixed(2);
     const leiInt = (n: number) => n.toLocaleString("ro-RO");
 
-    // Link către poza rețetei în consola Firebase Storage
-    const bucket = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "";
-    const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "";
-    function linkConsola(cale: string) {
-      const caleEnc = encodeURIComponent(cale);
-      return `https://console.firebase.google.com/project/${projectId}/storage/${bucket}/files/~2F${caleEnc.replace(
-        /%2F/g,
-        "~2F"
-      )}`;
-    }
-
     function configHtml(cfg: LensConfig) {
       const linii: string[] = [];
       linii.push(
@@ -67,8 +56,7 @@ export async function POST(request: Request) {
       } else if (cfg.reteta.metoda === "poza" && cfg.reteta.pozaCale) {
         reteta =
           `<strong>Rețetă (poză încărcată):</strong><br/>` +
-          `<a href="${linkConsola(cfg.reteta.pozaCale)}" style="color:#c6a253">Deschide poza în Firebase Storage</a><br/>` +
-          `<span style="color:#999;font-size:12px">Cale: ${cfg.reteta.pozaCale}</span>`;
+          `<a href="${cfg.reteta.pozaCale}" style="color:#c6a253">Deschide poza cu rețeta</a>`;
       } else {
         reteta = `<strong>Rețetă:</strong> consultație / clientul aduce rețeta la magazin`;
       }

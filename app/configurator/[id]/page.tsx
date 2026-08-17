@@ -70,9 +70,9 @@ export default function ConfiguratorPage() {
         .slice(2, 8)}.${ext}`;
       const r = ref(storage, cale);
       await uploadBytes(r, file);
-      // Reținem doar calea. Link-ul cu token îl generăm pe server (la comandă),
-      // ca să nu deblocăm citirea publică a rețetelor.
-      setPozaUrl(cale);
+      // getDownloadURL generează linkul complet cu token — direct-clickabil.
+      const url = await getDownloadURL(r);
+      setPozaUrl(url);
     } catch (err) {
       console.error("Eroare la urcarea pozei:", err);
       alert(
