@@ -2,6 +2,31 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
+// Detaliile unei configurații de lentile (ochelari configurați).
+// Prețurile de aici sunt în LEI (informativ — pentru afișare și email).
+// Prețul real al produsului rămâne CartItem.price, în bani.
+export type LensConfig = {
+  frameId: string;
+  lentila: { nume: string; index: string; pret: number };
+  albastru: boolean;
+  albastruPret: number;
+  soare: { nume: string; pret: number } | null;
+  reteta: {
+    metoda: string; // "manual" | "poza" | "consultatie"
+    dioptrii: {
+      odSph: string;
+      odCyl: string;
+      odAx: string;
+      osSph: string;
+      osCyl: string;
+      osAx: string;
+      pd: string;
+      add: string;
+    } | null;
+    pozaCale: string | null;
+  };
+};
+
 export type CartItem = {
   id: string;
   name: string;
@@ -9,6 +34,7 @@ export type CartItem = {
   price: number; // în bani
   image: string;
   qty: number;
+  config?: LensConfig; // prezent doar la ochelarii configurați
 };
 
 type CartContextType = {
