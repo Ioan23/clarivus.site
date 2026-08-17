@@ -10,6 +10,7 @@ const SERVICES = [
   { name: "Transfer lentile în altă ramă", price: "Gratuit* / 50 lei", desc: "Gratuit dacă alegi o ramă din colecția noastră, 50 lei pentru rame aduse de tine." },
   { name: "Montaj lentile aduse de client", price: "100 lei", desc: "Montăm lentilele tale într-o ramă la alegere." },
   { name: "Consultație optometrică la domiciliu", price: "100 lei", desc: "Optică mobilă — venim la tine pentru consultație completă." },
+  { name: "Curățare rame prin electroliză", price: "100 lei", desc: "Curățare profesională a ramelor metalice prin electroliză, pentru un aspect ca nou." },
 ];
 
 export default function ServiciiPage() {

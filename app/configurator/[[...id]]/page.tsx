@@ -23,7 +23,9 @@ function lei(n: number) {
 }
 
 export default function ConfiguratorPage() {
-  const { id } = useParams<{ id: string }>();
+  // id vine ca listă (din [[...id]]). Dacă există, luăm primul element.
+  const params = useParams<{ id?: string[] }>();
+  const frameId = params.id?.[0] || null;
   const router = useRouter();
   const { addItem } = useCart();
   const [frame, setFrame] = useState<any>(null);
@@ -48,12 +50,18 @@ export default function ConfiguratorPage() {
   const [pozaNume, setPozaNume] = useState<string>("");
   const [pozaUrca, setPozaUrca] = useState(false);
   const [pozaUrl, setPozaUrl] = useState<string>("");
+  const [ramaScoasa, setRamaScoasa] = useState(false);
 
   useEffect(() => {
-    getProduct(id)
+    if (!frameId) {
+      // Fără ramă — mod "doar lentile"
+      setLoading(false);
+      return;
+    }
+    getProduct(frameId)
       .then((p) => setFrame(p))
       .finally(() => setLoading(false));
-  }, [id]);
+  }, [frameId]);
 
   function updateReteta(camp: string, val: string) {
     setReteta((prev) => ({ ...prev, [camp]: val }));
@@ -70,7 +78,6 @@ export default function ConfiguratorPage() {
         .slice(2, 8)}.${ext}`;
       const r = ref(storage, cale);
       await uploadBytes(r, file);
-      // getDownloadURL generează linkul complet cu token — direct-clickabil.
       const url = await getDownloadURL(r);
       setPozaUrl(url);
     } catch (err) {
@@ -92,7 +99,8 @@ export default function ConfiguratorPage() {
     );
   }
 
-  if (!frame) {
+  // Dacă avem id de ramă dar rama nu a fost găsită — eroare
+  if (frameId && !frame) {
     return (
       <main className="mx-auto max-w-5xl px-4 py-16 text-center">
         <p className="text-gray-600">Rama nu a fost găsită.</p>
@@ -103,7 +111,8 @@ export default function ConfiguratorPage() {
     );
   }
 
-  const framePriceLei = frame.price / 100;
+  const areRama = !!frame && !ramaScoasa;
+  const framePriceLei = areRama ? frame.price / 100 : 0;
   const nivel = NIVELURI_LENTILE.find((n) => n.id === nivelId);
   const soare = TIPURI_SOARE.find((t) => t.id === soareId);
 
@@ -112,8 +121,6 @@ export default function ConfiguratorPage() {
   const pretSoare = soare ? soare.pret : 0;
   const total = framePriceLei + pretLentila + pretAlbastru + pretSoare;
 
-  // rețeta e completă dacă: manual (are metoda), consultație (are metoda),
-  // sau poză (are metoda ȘI poza a terminat de urcat)
   const retetaGata =
     metodaReteta === "manual" ||
     metodaReteta === "consultatie" ||
@@ -124,7 +131,8 @@ export default function ConfiguratorPage() {
   function adaugaInCos() {
     if (!nivel) return;
     const config = {
-      frameId: id,
+      frameId: frameId || null,
+      doarLentile: !areRama,
       lentila: { nume: nivel.nume, index: nivel.index, pret: pretLentila },
       albastru,
       albastruPret: pretAlbastru,
@@ -140,10 +148,12 @@ export default function ConfiguratorPage() {
     };
     addItem({
       id: "config-" + Date.now() + "-" + Math.random().toString(36).slice(2, 6),
-      name: `${nivel.nume} pe ${frame.name}`,
-      brand: frame.brand,
+      name: areRama
+        ? `${nivel.nume} pe ${frame.name}`
+        : `Lentile ${nivel.nume} (pentru rama clientului)`,
+      brand: areRama ? frame.brand : "Lentile",
       price: Math.round(total * 100),
-      image: frame.images?.[0] || frame.image || "",
+      image: areRama ? frame.images?.[0] || frame.image || "" : "",
       config,
     });
     router.push("/cos");
@@ -151,22 +161,37 @@ export default function ConfiguratorPage() {
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-10">
-      <Link
-        href={`/produse/${id}`}
-        className="mb-6 inline-block text-sm text-gray-500 transition hover:text-[#0a1728]"
-      >
-        ← Înapoi la ramă
-      </Link>
+      {areRama ? (
+        <Link
+          href={`/produse/${frameId}`}
+          className="mb-6 inline-block text-sm text-gray-500 transition hover:text-[#0a1728]"
+        >
+          ← Înapoi la ramă
+        </Link>
+      ) : (
+        <Link
+          href="/servicii"
+          className="mb-6 inline-block text-sm text-gray-500 transition hover:text-[#0a1728]"
+        >
+          ← Înapoi la servicii
+        </Link>
+      )}
 
       <h1 className="mb-2 text-3xl font-semibold text-[#0a1728]">
         Configurează lentilele
       </h1>
-      <p className="mb-8 text-gray-600">
-        Pentru rama{" "}
-        <strong>
-          {frame.brand} {frame.name}
-        </strong>
-      </p>
+      {areRama ? (
+        <p className="mb-8 text-gray-600">
+          Pentru rama{" "}
+          <strong>
+            {frame.brand} {frame.name}
+          </strong>
+        </p>
+      ) : (
+        <p className="mb-8 text-gray-600">
+          Comanzi doar lentilele, pentru rama ta.
+        </p>
+      )}
 
       <div className="grid gap-10 lg:grid-cols-[1fr_340px]">
         {/* COLOANA STÂNGA — pași */}
@@ -477,10 +502,38 @@ export default function ConfiguratorPage() {
         <aside className="h-fit rounded-2xl border bg-white p-6 shadow-sm lg:sticky lg:top-24">
           <h2 className="mb-4 text-lg font-semibold text-[#0a1728]">Sumar</h2>
           <div className="space-y-3 text-sm">
-            <div className="flex justify-between">
-              <span className="text-gray-600">Ramă — {frame.name}</span>
-              <span className="font-medium">{lei(framePriceLei)}</span>
-            </div>
+            {areRama && (
+              <div className="flex items-start justify-between">
+                <div>
+                  <span className="text-gray-600">Ramă — {frame.name}</span>
+                  <button
+                    onClick={() => setRamaScoasa(true)}
+                    className="mt-0.5 block text-xs text-gray-400 underline transition hover:text-red-500"
+                  >
+                    Nu vreau rama, doar lentilele
+                  </button>
+                </div>
+                <span className="font-medium">{lei(framePriceLei)}</span>
+              </div>
+            )}
+            {frame && ramaScoasa && (
+              <div className="flex items-start justify-between">
+                <div>
+                  <span className="text-gray-400 line-through">
+                    Ramă — {frame.name}
+                  </span>
+                  <button
+                    onClick={() => setRamaScoasa(false)}
+                    className="mt-0.5 block text-xs text-[#c6a253] underline transition hover:opacity-80"
+                  >
+                    Adaug rama înapoi
+                  </button>
+                </div>
+                <span className="text-gray-400 line-through">
+                  {lei(frame.price / 100)}
+                </span>
+              </div>
+            )}
             <div className="flex justify-between">
               <span className="text-gray-600">
                 Lentile {nivel ? `— ${nivel.nume}` : ""}
@@ -510,9 +563,15 @@ export default function ConfiguratorPage() {
             </span>
           </div>
 
+          {!areRama && (
+            <p className="mt-3 rounded-lg bg-[#faf8f3] p-3 text-xs text-gray-600">
+              Comanzi doar lentilele. Le montăm pe rama ta la magazin.
+            </p>
+          )}
+
           <button
             disabled={!gata}
-           onClick={adaugaInCos}
+            onClick={adaugaInCos}
             className="mt-6 w-full rounded-full bg-[#c6a253] px-8 py-3 text-sm font-medium text-[#0a1728] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {!nivel

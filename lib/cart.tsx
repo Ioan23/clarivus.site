@@ -6,7 +6,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 // Prețurile de aici sunt în LEI (informativ — pentru afișare și email).
 // Prețul real al produsului rămâne CartItem.price, în bani.
 export type LensConfig = {
-  frameId: string;
+  frameId: string | null;
+  doarLentile?: boolean;
   lentila: { nume: string; index: string; pret: number };
   albastru: boolean;
   albastruPret: number;

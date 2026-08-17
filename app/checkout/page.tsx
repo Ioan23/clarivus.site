@@ -78,6 +78,12 @@ export default function CheckoutPage() {
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-10">
+      <Link
+        href="/cos"
+        className="mb-6 inline-block text-sm text-gray-500 transition hover:text-[#0a1728]"
+      >
+        ← Înapoi la coș
+      </Link>
       <h1 className="mb-8 text-3xl font-semibold">Finalizează comanda</h1>
 
       <div className="grid gap-10 md:grid-cols-2">
@@ -106,11 +112,16 @@ export default function CheckoutPage() {
             <h2 className="mb-4 font-semibold">Comanda ta</h2>
             <div className="space-y-3">
               {items.map((item) => (
-                <div key={item.id} className="flex justify-between text-sm">
-                  <span className="text-gray-600">
-                    {item.name} × {item.qty}
+                <div key={item.id} className="flex items-start justify-between gap-3 text-sm">
+                  <span className="text-gray-700">
+                    {item.name}
+                    {item.qty > 1 && (
+                      <span className="text-gray-400"> · cant. {item.qty}</span>
+                    )}
                   </span>
-                  <span className="font-medium">{formatPrice(item.price * item.qty)}</span>
+                  <span className="whitespace-nowrap font-medium text-[#0a1728]">
+                    {formatPrice(item.price * item.qty)}
+                  </span>
                 </div>
               ))}
             </div>
