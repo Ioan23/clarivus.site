@@ -1,98 +1,97 @@
 export const metadata = {
-  title: "Politica de retur — Clarivus",
+  title: "Politica de retur | Clarivus",
 };
 
 export default function ReturPage() {
   return (
-    <main className="mx-auto max-w-3xl px-4 py-12">
-      <h1 className="mb-2 text-3xl font-semibold">Politica de retur</h1>
-      <p className="mb-8 text-sm text-gray-500">Ultima actualizare: [COMPLETEAZĂ DATA]</p>
+    <main className="min-h-screen bg-white text-[#0a1728]">
+      <div className="mx-auto max-w-4xl px-4 py-16">
+        <h1 className="text-3xl font-light tracking-wide">Politica de retur</h1>
+        <p className="mt-2 text-sm text-gray-500">
+          Ultima actualizare: {new Date().toLocaleDateString("ro-RO")}
+        </p>
 
-      <div className="space-y-8 text-sm leading-relaxed text-gray-700">
-        <section>
-          <h2 className="mb-2 text-lg font-semibold text-gray-900">1. Dreptul de retragere (14 zile)</h2>
-          <p>
-            Conform OUG 34/2014, în calitate de consumator persoană fizică, ai dreptul de a te retrage din
-            contract în termen de <strong>14 zile calendaristice</strong> de la data la care intri în posesia
-            produsului, fără a fi nevoit să justifici decizia și fără costuri suplimentare, cu excepția
-            costurilor de returnare.
-          </p>
-        </section>
+        <h2 className="mt-10 mb-3 text-xl font-semibold">1. Dreptul de retragere</h2>
+        <p className="mb-4 text-sm leading-relaxed text-gray-700">
+          Conform OUG nr. 34/2014, aveți dreptul de a vă retrage din contract, fără a
+          fi necesară justificarea deciziei, în termen de <strong>14 zile calendaristice</strong>{" "}
+          de la data primirii produsului.
+        </p>
 
-        <section>
-          <h2 className="mb-2 text-lg font-semibold text-gray-900">2. Excepții — produse care NU se pot returna</h2>
-          <p>
-            Conform art. 16 din OUG 34/2014, dreptul de retragere NU se aplică pentru produsele
-            confecționate după specificațiile Clientului sau personalizate. În cazul nostru, acest lucru
-            include în special:
+        <div className="mb-6 rounded-md border-l-4 border-[#c6a253] bg-amber-50 p-4">
+          <p className="text-sm leading-relaxed text-gray-800">
+            <strong>Excepție — lentile pe bază de rețetă.</strong> Conform art. 16 lit. c)
+            din OUG nr. 34/2014, lentilele de vedere confecționate pe baza rețetei optice
+            a clientului sunt produse personalizate, realizate după specificațiile
+            acestuia, și <strong>nu beneficiază de dreptul de retragere</strong>. Ramele
+            de ochelari și ochelarii de soare fără lentile pe comandă rămân supuse
+            dreptului de retur standard descris mai jos.
           </p>
-          <ul className="mt-2 list-disc space-y-1 pl-5">
-            <li>
-              <strong>Ochelarii de vedere cu lentile montate conform prescripției/dioptriilor tale</strong> —
-              fiind confecționați special pentru tine, nu pot fi returnați.
-            </li>
-            <li>Lentilele de contact desigilate, din motive de igienă și protecția sănătății.</li>
-            <li>[COMPLETEAZĂ alte excepții, dacă e cazul.]</li>
-          </ul>
+        </div>
+
+        <h2 className="mt-10 mb-3 text-xl font-semibold">2. Cum vă exercitați dreptul de retur</h2>
+        <p className="mb-4 text-sm leading-relaxed text-gray-700">
+          Ne puteți notifica intenția de retur printr-un email trimis la{" "}
+          <a href="mailto:xaioffice22@gmail.com" className="text-[#c6a253] underline">
+            xaioffice22@gmail.com
+          </a>
+          , menționând numărul comenzii și produsul pe care doriți să-l returnați.
+          Produsul trebuie expediat înapoi în termen de 14 zile de la comunicarea
+          deciziei de retragere.
+        </p>
+
+        <h2 className="mt-10 mb-3 text-xl font-semibold">3. Starea produsului la retur</h2>
+        <p className="mb-4 text-sm leading-relaxed text-gray-700">
+          Produsul trebuie returnat nepurtat, nedeteriorat, în ambalajul original, cu
+          toate accesoriile și eticheta atașată. Clarivus își rezervă dreptul de a
+          diminua suma rambursată proporțional cu deprecierea produsului, dacă aceasta
+          rezultă din manipularea sa în alt mod decât cel necesar pentru determinarea
+          naturii și caracteristicilor sale.
+        </p>
+
+        <h2 className="mt-10 mb-3 text-xl font-semibold">4. Costurile returului</h2>
+        <p className="mb-4 text-sm leading-relaxed text-gray-700">
+          Costul transportului pentru returnarea produsului este suportat de{" "}
+          <strong>client</strong>, cu excepția situației în care produsul livrat este
+          <strong> defect, deteriorat sau diferit</strong> față de cel comandat — caz în
+          care costul transportului de retur este suportat de Clarivus.
+        </p>
+
+        <h2 className="mt-10 mb-3 text-xl font-semibold">5. Rambursarea</h2>
+        <p className="mb-4 text-sm leading-relaxed text-gray-700">
+          Suma achitată va fi rambursată în termen de cel mult 14 zile de la data la
+          care Clarivus este informată despre decizia de retragere sau, dacă e mai
+          târziu, de la data primirii produsului returnat. Rambursarea se face prin
+          transfer bancar, în contul indicat de client.
+        </p>
+
+        <h2 className="mt-10 mb-3 text-xl font-semibold">6. Produse defecte sau neconforme</h2>
+        <p className="mb-4 text-sm leading-relaxed text-gray-700">
+          Dacă produsul primit este defect sau nu corespunde comenzii, vă rugăm să ne
+          contactați în cel mai scurt timp la{" "}
+          <a href="mailto:xaioffice22@gmail.com" className="text-[#c6a253] underline">
+            xaioffice22@gmail.com
+          </a>
+          , cu poze/descriere a problemei. Aceste situații sunt tratate prioritar,
+          inclusiv pentru lentilele pe bază de rețetă, în cadrul garanției legale de
+          conformitate.
+        </p>
+
+        <h2 className="mt-10 mb-3 text-xl font-semibold">7. Model de formular de retragere</h2>
+        <p className="mb-2 text-sm leading-relaxed text-gray-700">
+          (se completează și trimite doar dacă doriți să vă retrageți din contract)
+        </p>
+        <div className="mb-4 rounded-md border border-gray-200 bg-gray-50 p-4 text-sm leading-relaxed text-gray-700">
+          <p>Către XAIVISION SRL, xaioffice22@gmail.com</p>
           <p className="mt-2">
-            Ochelarii de soare fără dioptrii și ramele nemodificate pot fi returnați în condițiile de mai jos.
+            Prin prezenta notific retragerea mea din contractul privind vânzarea
+            următorului produs: ______________________
           </p>
-        </section>
-
-        <section>
-          <h2 className="mb-2 text-lg font-semibold text-gray-900">3. Condiții pentru retur</h2>
-          <p>Pentru ca returul să fie acceptat, produsul trebuie să fie:</p>
-          <ul className="mt-2 list-disc space-y-1 pl-5">
-            <li>În aceeași stare în care a fost primit, nefolosit și nedeteriorat</li>
-            <li>Cu toate accesoriile, ambalajul original și eticheta (dacă există)</li>
-            <li>Însoțit de dovada achiziției (factură / bon)</li>
-          </ul>
-        </section>
-
-        <section>
-          <h2 className="mb-2 text-lg font-semibold text-gray-900">4. Cum returnezi un produs</h2>
-          <ol className="mt-2 list-decimal space-y-1 pl-5">
-            <li>Ne anunți intenția de retur la [COMPLETEAZĂ EMAIL] sau [COMPLETEAZĂ TELEFON], în termenul de 14 zile.</li>
-            <li>Împachetezi produsul în siguranță, cu toate accesoriile.</li>
-            <li>Trimiți produsul prin curier la adresa: [COMPLETEAZĂ ADRESA DE RETUR].</li>
-            <li>După verificarea produsului, procesăm rambursarea.</li>
-          </ol>
-        </section>
-
-        <section>
-          <h2 className="mb-2 text-lg font-semibold text-gray-900">5. Rambursarea banilor</h2>
-          <p>
-            Rambursăm suma achitată în termen de <strong>maximum 14 zile</strong> de la data la care am fost
-            informați despre decizia ta de retragere, dar putem amâna rambursarea până la primirea produsului
-            returnat. Rambursarea se face prin [COMPLETEAZĂ, ex: transfer bancar în contul indicat de tine].
-          </p>
-        </section>
-
-        <section>
-          <h2 className="mb-2 text-lg font-semibold text-gray-900">6. Costurile de returnare</h2>
-          <p>
-            Costul returnării produsului este suportat de [COMPLETEAZĂ, ex: Client], cu excepția cazului în
-            care produsul este defect, neconform sau a fost livrat din greșeală, situație în care costul este
-            suportat de Vânzător.
-          </p>
-        </section>
-
-        <section>
-          <h2 className="mb-2 text-lg font-semibold text-gray-900">7. Produse defecte sau neconforme</h2>
-          <p>
-            Dacă produsul primit este defect sau nu corespunde comenzii, te rugăm să ne contactezi. Ai
-            dreptul, conform OUG 140/2021, la repararea sau înlocuirea produsului, ori la reducerea prețului
-            sau rambursare, în condițiile legii.
-          </p>
-        </section>
-
-        <section>
-          <h2 className="mb-2 text-lg font-semibold text-gray-900">8. Contact</h2>
-          <p>
-            Pentru orice întrebare legată de retururi, ne poți contacta la [COMPLETEAZĂ EMAIL] sau
-            [COMPLETEAZĂ TELEFON].
-          </p>
-        </section>
+          <p className="mt-2">Comandat la data: ______________________</p>
+          <p className="mt-2">Numele consumatorului: ______________________</p>
+          <p className="mt-2">Adresa consumatorului: ______________________</p>
+          <p className="mt-2">Data: ______________________</p>
+        </div>
       </div>
     </main>
   );
