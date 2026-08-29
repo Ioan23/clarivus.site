@@ -182,7 +182,7 @@ export default function CheckoutPage() {
                   type="text"
                   value={discountInput}
                   onChange={(e) => setDiscountInput(e.target.value)}
-                  placeholder="Ex: PRIETENI50"
+                  placeholder="Introdu codul"
                   className="flex-1 rounded-lg border px-3 py-2 text-sm"
                   disabled={!!appliedDiscount}
                 />
