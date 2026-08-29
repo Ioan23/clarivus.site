@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import Gallery from "./Gallery";
 import Link from "next/link";
 import AddToCart from "./AddToCart";
-import { formatPrice } from "@/lib/pricing";
+import { formatPrice, getEffectivePrice, isOnSale, getDiscountPercent } from "@/lib/pricing";
+import { getActivePromotions } from "@/lib/promotions";
 
 export default async function ProductPage({
   params,
@@ -14,6 +15,7 @@ export default async function ProductPage({
   const p = await getProduct(id);
   if (!p) notFound();
 
+  const promotions = await getActivePromotions();
   const a = (p as any).attributes || {};
 
   return (
@@ -30,7 +32,17 @@ export default async function ProductPage({
         <div>
           <p className="text-sm uppercase tracking-wide text-gray-400">{p.brand}</p>
           <h1 className="mt-1 text-2xl font-semibold">{p.name}</h1>
-          <p className="mt-4 text-3xl font-bold">{formatPrice(p.price)}</p>
+          {isOnSale(p, promotions) ? (
+            <div className="mt-4 flex items-baseline gap-3">
+              <span className="text-3xl font-bold text-[#0a1728]">{formatPrice(getEffectivePrice(p, promotions))}</span>
+              <span className="text-lg text-gray-400 line-through">{formatPrice(p.price)}</span>
+              <span className="rounded bg-[#c6a253] px-2 py-1 text-sm font-semibold text-white">
+                -{getDiscountPercent(p, promotions)}%
+              </span>
+            </div>
+          ) : (
+            <p className="mt-4 text-3xl font-bold">{formatPrice(p.price)}</p>
+          )}
           <p className={`mt-2 text-sm ${p.stock > 0 ? "text-green-600" : "text-red-500"}`}>
             {p.stock > 0 ? "În stoc" : "Stoc epuizat"}
           </p>
@@ -38,7 +50,7 @@ export default async function ProductPage({
             id={p.id}
             name={p.name}
             brand={p.brand}
-            price={p.price}
+            price={getEffectivePrice(p, promotions)}
             image={p.images && p.images.length > 0 ? p.images[0] : ""}
             inStock={p.stock > 0}
           />

@@ -7,6 +7,12 @@ service cloud.firestore {
       allow read: if true;
       allow write: if false;
     }
+    
+    // Promoții: oricine citește (ca să vadă reducerile pe site), nimeni nu scrie din browser
+match /promotions/{promotionId} {
+  allow read: if true;
+  allow write: if false;
+}
 
     // Comenzi: oricine poate CREA o comandă (checkout ca invitat),
     // dar structura e validată strict; nimeni nu poate citi/modifica/șterge din browser

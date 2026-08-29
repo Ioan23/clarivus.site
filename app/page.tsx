@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getProducts, type Product } from "@/lib/products";
-import { formatPrice } from "@/lib/pricing";
+import { formatPrice, getEffectivePrice, isOnSale, getDiscountPercent } from "@/lib/pricing";
+import { getActivePromotions, type Promotion } from "@/lib/promotions";
 
 function EyeLogo({ className }: { className?: string }) {
   return (
@@ -18,12 +19,17 @@ function EyeLogo({ className }: { className?: string }) {
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [promotions, setPromotions] = useState<Promotion[]>([]);
 
   useEffect(() => {
     getProducts()
       .then((items) => setProducts(items))
       .catch((e) => console.error("Eroare la citirea produselor:", e))
       .finally(() => setLoading(false));
+  }, []);
+
+  useEffect(() => {
+    getActivePromotions().then(setPromotions);
   }, []);
 
   const featured = products.slice(0, 4);
@@ -86,7 +92,17 @@ export default function HomePage() {
                   <div className="mt-3">
                     <p className="text-xs uppercase tracking-wide text-gray-400">{p.brand}</p>
                     <h3 className="text-sm font-medium text-gray-900">{p.name}</h3>
-                    <p className="mt-1 font-semibold">{formatPrice(p.price)}</p>
+                    {isOnSale(p, promotions) ? (
+                      <div className="mt-1 flex items-center gap-2">
+                        <span className="font-semibold text-[#0a1728]">{formatPrice(getEffectivePrice(p, promotions))}</span>
+                        <span className="text-sm text-gray-400 line-through">{formatPrice(p.price)}</span>
+                        <span className="rounded bg-[#c6a253] px-1.5 py-0.5 text-xs font-semibold text-white">
+                          -{getDiscountPercent(p, promotions)}%
+                        </span>
+                      </div>
+                    ) : (
+                      <p className="mt-1 font-semibold">{formatPrice(p.price)}</p>
+                    )}
                     {p.stock === 0 && <p className="mt-1 text-xs text-red-500">Stoc epuizat</p>}
                   </div>
                 </article>
