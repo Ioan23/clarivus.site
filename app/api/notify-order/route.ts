@@ -19,7 +19,7 @@ type LensConfig = {
 
 export async function POST(request: Request) {
   try {
-    const { orderId, customer, items, total } = await request.json();
+    const { orderId, customer, items, total, discountCode } = await request.json();
 
     const apiKey = process.env.RESEND_API_KEY;
     const to = process.env.ORDER_NOTIFICATION_EMAIL;
@@ -73,6 +73,10 @@ export async function POST(request: Request) {
         </div>`;
     }
 
+    const subtotal = discountCode
+      ? items.reduce((s: number, i: any) => s + (i.originalPrice ?? i.price) * i.qty, 0)
+      : null;
+
     const itemsHtml = (items ?? [])
       .map((it: {
         name: string; brand?: string; price: number; qty: number; config?: LensConfig;
@@ -108,6 +112,14 @@ export async function POST(request: Request) {
           ${itemsHtml}
         </table>
 
+        ${discountCode ? `
+          <p style="margin:16px 0 0;color:#999;text-decoration:line-through;font-size:14px">
+            Subtotal: ${lei(subtotal)} lei
+          </p>
+          <p style="margin:2px 0 0;color:#c6a253;font-size:14px">
+            Cod aplicat: <strong>${discountCode.cod}</strong> (-${discountCode.reducere}%)
+          </p>
+        ` : ""}
         <p style="margin:16px 0 0;font-size:16px"><strong>Total: ${lei(total)} lei</strong></p>
         <p style="color:#666;margin:4px 0 0">Plată: ramburs (la livrare)</p>
       </div>

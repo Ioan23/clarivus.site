@@ -15,7 +15,8 @@ export type CustomerInfo = {
 export async function createOrder(
   customer: CustomerInfo,
   items: CartItem[],
-  total: number
+  total: number,
+  discountCode?: { cod: string; reducere: number }
 ): Promise<string> {
   const order = {
     customer,
@@ -33,6 +34,7 @@ export async function createOrder(
     paymentMethod: "ramburs",
     status: "nou",
     createdAt: serverTimestamp(),
+    ...(discountCode ? { discountCode } : {}),
   };
 
   const ref = await addDoc(collection(db, "orders"), order);

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useCart } from "@/lib/cart";
 import { createOrder, type CustomerInfo } from "@/lib/orders";
 import { formatPrice } from "@/lib/pricing";
+import { validateDiscountCode, type DiscountCode } from "@/lib/discountCodes";
 
 const empty: CustomerInfo = {
   name: "",
@@ -23,10 +24,35 @@ export default function CheckoutPage() {
   const [form, setForm] = useState<CustomerInfo>(empty);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [discountInput, setDiscountInput] = useState("");
+  const [appliedDiscount, setAppliedDiscount] = useState<DiscountCode | null>(null);
+  const [discountError, setDiscountError] = useState("");
+  const [checkingDiscount, setCheckingDiscount] = useState(false);
 
   function update(field: keyof CustomerInfo, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
+
+  async function handleApplyDiscount() {
+    setDiscountError("");
+    setCheckingDiscount(true);
+    const result = await validateDiscountCode(discountInput);
+    setCheckingDiscount(false);
+    if (!result) {
+      setDiscountError("Cod invalid sau expirat.");
+      setAppliedDiscount(null);
+      return;
+    }
+    setAppliedDiscount(result);
+  }
+
+  const originalTotal = items.reduce(
+    (s, i) => s + (i.originalPrice ?? i.price) * i.qty,
+    0
+  );
+  const finalTotal = appliedDiscount
+    ? Math.round(originalTotal * (1 - appliedDiscount.reducere / 100))
+    : total;
 
   async function handleSubmit() {
     setError("");
@@ -53,12 +79,25 @@ export default function CheckoutPage() {
     }
     setSubmitting(true);
     try {
-      const orderId = await createOrder(form, items, total);
+      const orderId = await createOrder(
+        form,
+        items,
+        finalTotal,
+        appliedDiscount ? { cod: appliedDiscount.cod, reducere: appliedDiscount.reducere } : undefined
+      );
       try {
         await fetch("/api/notify-order", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ orderId, customer: form, items, total }),
+          body: JSON.stringify({
+            orderId,
+            customer: form,
+            items,
+            total: finalTotal,
+            discountCode: appliedDiscount
+              ? { cod: appliedDiscount.cod, reducere: appliedDiscount.reducere }
+              : undefined,
+          }),
         });
       } catch (notifyError) {
         console.error("Notificarea pe email nu a putut fi trimisă:", notifyError);
@@ -135,9 +174,45 @@ export default function CheckoutPage() {
                 </div>
               ))}
             </div>
+
+            <div className="mt-4">
+              <label className="text-sm font-medium">Cod de reducere</label>
+              <div className="mt-1 flex gap-2">
+                <input
+                  type="text"
+                  value={discountInput}
+                  onChange={(e) => setDiscountInput(e.target.value)}
+                  placeholder="Ex: PRIETENI50"
+                  className="flex-1 rounded-lg border px-3 py-2 text-sm"
+                  disabled={!!appliedDiscount}
+                />
+                <button
+                  type="button"
+                  onClick={handleApplyDiscount}
+                  disabled={checkingDiscount || !!appliedDiscount || !discountInput.trim()}
+                  className="rounded-lg border-2 border-[#c6a253] px-4 py-2 text-sm font-medium text-[#0a1728] disabled:opacity-50"
+                >
+                  {checkingDiscount ? "..." : appliedDiscount ? "Aplicat" : "Aplică"}
+                </button>
+              </div>
+              {discountError && <p className="mt-1 text-xs text-red-500">{discountError}</p>}
+              {appliedDiscount && (
+                <p className="mt-1 text-xs text-green-600">
+                  Cod aplicat: -{appliedDiscount.reducere}% (calculat din prețul de listă)
+                </p>
+              )}
+            </div>
+
             <div className="mt-4 flex justify-between border-t pt-4">
               <span className="font-semibold">Total</span>
-              <span className="text-xl font-bold">{formatPrice(total)}</span>
+              {appliedDiscount ? (
+                <div>
+                  <span className="text-sm text-gray-400 line-through">{formatPrice(total)}</span>
+                  <span className="ml-2 text-xl font-bold">{formatPrice(finalTotal)}</span>
+                </div>
+              ) : (
+                <span className="text-xl font-bold">{formatPrice(total)}</span>
+              )}
             </div>
 
             <div className="mt-4 rounded-lg bg-gray-50 p-3 text-sm text-gray-600">
