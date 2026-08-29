@@ -33,6 +33,8 @@ export type CartItem = {
   name: string;
   brand: string;
   price: number; // în bani
+  originalPrice?: number; // prețul de listă, înainte de reducere (dacă a existat reducere)
+  discountLabel?: string | null; // motivul reducerii, ex "Promoție: Ray-Ban -20%" sau "Preț redus manual"
   image: string;
   qty: number;
   config?: LensConfig; // prezent doar la ochelarii configurați

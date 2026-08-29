@@ -91,6 +91,28 @@ export function getDiscountPercent(
 }
 
 /**
+ * Motivul reducerii aplicate unui produs, pentru a-l putea salva pe comandă
+ * (istoricul comenzii rămâne corect chiar dacă promoția expiră ulterior).
+ */
+export function getDiscountSource(
+  product: Pick<Product, "id" | "brand" | "category" | "price" | "salePrice">,
+  promotions: Promotion[] = []
+): { label: string | null } {
+  if (
+    typeof product.salePrice === "number" &&
+    product.salePrice > 0 &&
+    product.salePrice < product.price
+  ) {
+    return { label: "Preț redus manual" };
+  }
+  const promo = findBestPromotion(product, promotions);
+  if (promo && promo.reducere > 0 && promo.reducere < 100) {
+    return { label: `Promoție: ${promo.nume}` };
+  }
+  return { label: null };
+}
+
+/**
  * Formatează o valoare deja exprimată în LEI (nu în bani), ex: 500 -> "500,00 lei"
  * Folosită pentru prețurile din configuratorul de lentile, care sunt hardcodate
  * direct în lei, nu în bani ca produsele din Firestore.

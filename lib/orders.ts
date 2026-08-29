@@ -26,6 +26,7 @@ export async function createOrder(
       price: i.price,
       qty: i.qty,
       ...(i.config ? { config: i.config } : {}),
+      ...(i.originalPrice ? { originalPrice: i.originalPrice, discountLabel: i.discountLabel } : {}),
     })),
     total,
     currency: "RON",

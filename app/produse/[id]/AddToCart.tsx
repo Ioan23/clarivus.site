@@ -11,14 +11,28 @@ type Props = {
   price: number;
   image: string;
   inStock: boolean;
+  originalPrice?: number;
+  discountLabel?: string | null;
 };
 
-export default function AddToCart({ id, name, brand, price, image, inStock }: Props) {
+export default function AddToCart({
+  id,
+  name,
+  brand,
+  price,
+  image,
+  inStock,
+  originalPrice,
+  discountLabel,
+}: Props) {
   const { addItem } = useCart();
   const [added, setAdded] = useState(false);
 
   function handleAdd() {
-    addItem({ id, name, brand, price, image });
+    addItem({
+      id, name, brand, price, image,
+      ...(originalPrice ? { originalPrice, discountLabel } : {}),
+    });
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   }

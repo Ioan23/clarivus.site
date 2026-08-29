@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Gallery from "./Gallery";
 import Link from "next/link";
 import AddToCart from "./AddToCart";
-import { formatPrice, getEffectivePrice, isOnSale, getDiscountPercent } from "@/lib/pricing";
+import { formatPrice, getEffectivePrice, isOnSale, getDiscountPercent, getDiscountSource } from "@/lib/pricing";
 import { getActivePromotions } from "@/lib/promotions";
 
 export default async function ProductPage({
@@ -53,6 +53,8 @@ export default async function ProductPage({
             price={getEffectivePrice(p, promotions)}
             image={p.images && p.images.length > 0 ? p.images[0] : ""}
             inStock={p.stock > 0}
+            originalPrice={isOnSale(p, promotions) ? p.price : undefined}
+            discountLabel={isOnSale(p, promotions) ? getDiscountSource(p, promotions).label : undefined}
           />
 
           {p.description && <p className="mt-6 text-gray-600">{p.description}</p>}
