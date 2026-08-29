@@ -46,8 +46,18 @@ export default function Footer() {
           <div>
             <h3 className="mb-4 text-sm font-semibold text-white">Contact</h3>
             <ul className="space-y-2 text-sm text-gray-400">
-              <li>Email: contact@clarivus.ro</li>
-              <li>Telefon: 07XX XXX XXX</li>
+              <li>
+                <a
+                  href="https://www.google.com/maps/place//data=!4m2!3m1!1s0x47490b9a061d6555:0xb2cc6c5256823ffc"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#c6a253]"
+                >
+                  Showroom: Bulevardul Muncii 8, Cluj-Napoca
+                </a>
+              </li>
+              <li>Email: xaioffice22@gmail.com</li>
+              <li>Telefon: 0750 261 246</li>
               <li>
                 <a href="https://www.instagram.com/clarivus" target="_blank" rel="noopener noreferrer" className="hover:text-[#c6a253]">
                   Instagram
@@ -59,7 +69,7 @@ export default function Footer() {
 
         <div className="mt-10 border-t border-white/10 pt-6 text-xs text-gray-500">
           <p>
-            SC CLARIVUS SRL · CUI: RO XXXXXXXX · Reg. Com.: JXX/XXXX/XXXX · Adresă: Str. Exemplu nr. X, Cluj-Napoca
+            XAIVISION SRL · CUI: RO46063856 · Reg. Com.: J2022002373128 · Sediu: Sat Dancu, nr. 72, jud. Cluj, cod 407008
           </p>
           <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1">
             <a href="https://anpc.ro" target="_blank" rel="noopener noreferrer" className="hover:text-[#c6a253]">
