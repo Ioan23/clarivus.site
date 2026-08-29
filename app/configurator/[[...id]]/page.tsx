@@ -12,15 +12,7 @@ import {
   FILTRU_ALBASTRU,
   TIPURI_SOARE,
 } from "@/lib/lentile-config";
-
-function lei(n: number) {
-  return n.toLocaleString("ro-RO", {
-    style: "currency",
-    currency: "RON",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2,
-  });
-}
+import { formatLei } from "@/lib/pricing";
 
 export default function ConfiguratorPage() {
   // id vine ca listă (din [[...id]]). Dacă există, luăm primul element.
@@ -232,7 +224,7 @@ export default function ConfiguratorPage() {
                     </div>
                     <p className="mt-2 text-sm text-gray-600">{n.descriere}</p>
                     <p className="mt-3 font-semibold text-[#0a1728]">
-                      {lei(n.pret)}
+                      {formatLei(n.pret)}
                     </p>
                   </button>
                 );
@@ -265,7 +257,7 @@ export default function ConfiguratorPage() {
                 </p>
               </div>
               <span className="whitespace-nowrap font-semibold text-[#0a1728]">
-                + {lei(FILTRU_ALBASTRU.pret)}
+                + {formatLei(FILTRU_ALBASTRU.pret)}
               </span>
             </button>
           </section>
@@ -300,7 +292,7 @@ export default function ConfiguratorPage() {
                       </p>
                     </div>
                     <span className="whitespace-nowrap font-semibold text-[#0a1728]">
-                      {t.pret > 0 ? `+ ${lei(t.pret)}` : "Inclus"}
+                      {t.pret > 0 ? `+ ${formatLei(t.pret)}` : "Inclus"}
                     </span>
                   </button>
                 );
@@ -513,7 +505,7 @@ export default function ConfiguratorPage() {
                     Nu vreau rama, doar lentilele
                   </button>
                 </div>
-                <span className="font-medium">{lei(framePriceLei)}</span>
+                <span className="font-medium">{formatLei(framePriceLei)}</span>
               </div>
             )}
             {frame && ramaScoasa && (
@@ -530,7 +522,7 @@ export default function ConfiguratorPage() {
                   </button>
                 </div>
                 <span className="text-gray-400 line-through">
-                  {lei(frame.price / 100)}
+                  {formatLei(frame.price / 100)}
                 </span>
               </div>
             )}
@@ -539,19 +531,19 @@ export default function ConfiguratorPage() {
                 Lentile {nivel ? `— ${nivel.nume}` : ""}
               </span>
               <span className="font-medium">
-                {nivel ? lei(pretLentila) : "—"}
+                {nivel ? formatLei(pretLentila) : "—"}
               </span>
             </div>
             {albastru && (
               <div className="flex justify-between">
                 <span className="text-gray-600">Filtru lumină albastră</span>
-                <span className="font-medium">{lei(pretAlbastru)}</span>
+                <span className="font-medium">{formatLei(pretAlbastru)}</span>
               </div>
             )}
             {soare && soare.pret > 0 && (
               <div className="flex justify-between">
                 <span className="text-gray-600">{soare.nume}</span>
-                <span className="font-medium">{lei(pretSoare)}</span>
+                <span className="font-medium">{formatLei(pretSoare)}</span>
               </div>
             )}
           </div>
@@ -559,7 +551,7 @@ export default function ConfiguratorPage() {
           <div className="mt-4 flex items-center justify-between border-t pt-4">
             <span className="font-semibold text-[#0a1728]">Total</span>
             <span className="text-2xl font-bold text-[#0a1728]">
-              {lei(total)}
+              {formatLei(total)}
             </span>
           </div>
 

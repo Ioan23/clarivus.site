@@ -8,6 +8,7 @@ export type Product = {
   type: "sunglasses" | "frame";
   category: string;
   price: number; // în bani: 899 lei = 89900
+  salePrice?: number; // preț redus, în bani — opțional, dacă lipsește, produsul nu e la reducere
   currency: string;
   stock: number;
   sku: string;

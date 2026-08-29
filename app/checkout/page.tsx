@@ -5,14 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useCart } from "@/lib/cart";
 import { createOrder, type CustomerInfo } from "@/lib/orders";
-
-function formatPrice(bani: number) {
-  return (bani / 100).toLocaleString("ro-RO", {
-    style: "currency",
-    currency: "RON",
-    minimumFractionDigits: 2,
-  });
-}
+import { formatPrice } from "@/lib/pricing";
 
 const empty: CustomerInfo = {
   name: "",
@@ -40,6 +33,23 @@ export default function CheckoutPage() {
     if (!form.name || !form.phone || !form.county || !form.city || !form.address) {
       setError("Te rugăm completează câmpurile obligatorii (*).");
       return;
+    }
+    if (/\d/.test(form.name)) {
+      setError("Numele nu poate conține cifre.");
+      return;
+    }
+    const telefonCurat = form.phone.replace(/[\s-]/g, "");
+    const telefonValid = /^(\+40|0040|0)7\d{8}$/.test(telefonCurat);
+    if (!telefonValid) {
+      setError("Numărul de telefon nu este valid. Format acceptat: 07XXXXXXXX sau +407XXXXXXXX.");
+      return;
+    }
+    if (form.email.trim() !== "") {
+      const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim());
+      if (!emailValid) {
+        setError("Adresa de email nu este validă.");
+        return;
+      }
     }
     setSubmitting(true);
     try {

@@ -3,14 +3,7 @@ import { notFound } from "next/navigation";
 import Gallery from "./Gallery";
 import Link from "next/link";
 import AddToCart from "./AddToCart";
-
-function formatPrice(bani: number) {
-  return (bani / 100).toLocaleString("ro-RO", {
-    style: "currency",
-    currency: "RON",
-    minimumFractionDigits: 2,
-  });
-}
+import { formatPrice } from "@/lib/pricing";
 
 export default async function ProductPage({
   params,

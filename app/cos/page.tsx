@@ -1,23 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useCart } from "@/lib/cart";
-
-function formatPrice(bani: number) {
-  return (bani / 100).toLocaleString("ro-RO", {
-    style: "currency",
-    currency: "RON",
-    minimumFractionDigits: 2,
-  });
-}
-
-function lei(n: number) {
-  return n.toLocaleString("ro-RO", {
-    style: "currency",
-    currency: "RON",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2,
-  });
-}
+import { formatPrice, formatLei } from "@/lib/pricing";
 
 export default function CartPage() {
   const { items, updateQty, removeItem, total } = useCart();
@@ -99,16 +83,16 @@ export default function CartPage() {
                 <ul className="space-y-1 text-gray-600">
                   <li>
                     Lentile: {item.config.lentila.nume} (index{" "}
-                    {item.config.lentila.index}) — {lei(item.config.lentila.pret)}
+                    {item.config.lentila.index}) — {formatLei(item.config.lentila.pret)}
                   </li>
                   {item.config.albastru && (
                     <li>
-                      Filtru lumină albastră — {lei(item.config.albastruPret)}
+                      Filtru lumină albastră — {formatLei(item.config.albastruPret)}
                     </li>
                   )}
                   {item.config.soare && (
                     <li>
-                      {item.config.soare.nume} — {lei(item.config.soare.pret)}
+                      {item.config.soare.nume} — {formatLei(item.config.soare.pret)}
                     </li>
                   )}
                   <li className="pt-1">

@@ -3,14 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getProducts, type Product } from "@/lib/products";
-
-function formatPrice(bani: number) {
-  return (bani / 100).toLocaleString("ro-RO", {
-    style: "currency",
-    currency: "RON",
-    minimumFractionDigits: 2,
-  });
-}
+import { formatPrice } from "@/lib/pricing";
 
 function EyeLogo({ className }: { className?: string }) {
   return (
