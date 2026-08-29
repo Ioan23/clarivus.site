@@ -40,6 +40,7 @@ export default function Footer() {
               <li><Link href="/termeni" className="hover:text-[#c6a253]">Termeni și condiții</Link></li>
               <li><Link href="/confidentialitate" className="hover:text-[#c6a253]">Politica de confidențialitate</Link></li>
               <li><Link href="/retur" className="hover:text-[#c6a253]">Politica de retur</Link></li>
+              <li><Link href="/cookies" className="hover:text-[#c6a253]">Politica de cookies</Link></li>
             </ul>
           </div>
 

@@ -34,7 +34,13 @@ export default function ConfidentialitatePage() {
             configurați lentile pe bază de rețetă, fie introduse manual, fie prin
             încărcarea unei fotografii a rețetei;
           </li>
-          <li>Date tehnice de navigare (cookie-uri) — detaliate în Politica de cookies.</li>
+          <li>
+            Date tehnice de navigare (cookie-uri) —{" "}
+            <a href="/cookies" className="text-[#c6a253] underline">
+              detaliate în Politica de cookies
+            </a>
+            .
+          </li>
         </ul>
 
         <div className="mb-6 rounded-md border-l-4 border-[#c6a253] bg-amber-50 p-4">
