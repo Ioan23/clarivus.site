@@ -35,6 +35,11 @@ export async function POST(request: Request) {
 
     function configHtml(cfg: LensConfig) {
       const linii: string[] = [];
+            if ((cfg as any).doarLentile) {
+        linii.push(
+          `<strong style="color:#b45309">⚠ Doar lentile — clientul aduce rama proprie</strong>`
+        );
+      }
       linii.push(
         `Lentile: <strong>${cfg.lentila.nume}</strong> (index ${cfg.lentila.index}) — ${leiInt(cfg.lentila.pret)} lei`
       );

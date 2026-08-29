@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 const SERVICES = [
   { name: "Reparații ochelari", price: "50 lei", desc: "Reparăm ramele deteriorate și readucem ochelarii la viață." },
@@ -73,6 +74,28 @@ export default function ServiciiPage() {
         <p className="mt-4 text-xs text-gray-400">
           * Transfer lentile gratuit la alegerea unei rame din colecția noastră.
         </p>
+      </section>
+
+      {/* INVITAȚIE — DOAR LENTILE */}
+      <section className="px-4 pb-4">
+        <div className="mx-auto max-w-4xl overflow-hidden rounded-2xl bg-gradient-to-br from-[#0a1728] to-[#0f2238] p-8 text-center text-white md:p-12">
+          <p className="mb-2 text-sm font-medium uppercase tracking-wide text-[#c6a253]">
+            Ai deja o ramă?
+          </p>
+          <h2 className="text-2xl font-semibold md:text-3xl">
+            Comandă doar lentilele, cu dioptriile tale
+          </h2>
+          <p className="mx-auto mt-3 max-w-lg text-gray-300">
+            Alegi tipul de lentile, tratamentele și ne trimiți rețeta — online, în câțiva pași.
+            Le montăm noi pe rama ta.
+          </p>
+          <Link
+            href="/configurator"
+            className="mt-6 inline-block rounded-full bg-[#c6a253] px-8 py-3 text-sm font-medium text-[#0a1728] transition hover:opacity-90"
+          >
+            Configurează lentilele →
+          </Link>
+        </div>
       </section>
 
       {/* FORMULAR PROGRAMARE */}
